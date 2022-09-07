@@ -1,4 +1,10 @@
-import { capitalize, reverseString, calculator } from "./practice.js";
+import {
+  capitalize,
+  reverseString,
+  calculator,
+  caesarCipher,
+  analyzeArray,
+} from "./practice.js";
 
 // Capitalize Tests
 
@@ -100,4 +106,66 @@ test("divides a negative integer by a positive integer to get a negative decimal
 
 test("divides a positive integer by zero to throw an error", () => {
   expect(() => calculator.divide(6, 0)).toThrow("You cannot divide by 0.");
+});
+
+// Caesar Cipher Tests
+
+test("shifts a string of only letters a positive amount lower than 25", () => {
+  expect(caesarCipher("iphone", 3)).toBe("lskrqh");
+});
+
+test("shifts a string of only letters a negative amount higher than -25", () => {
+  expect(caesarCipher("iphone", -3)).toBe("fmelkb");
+});
+
+test("shifts a string of only letters a positive amount higher than 25", () => {
+  expect(caesarCipher("iphone", 45)).toBe("biahgx");
+});
+
+test("shifts a string of only letters a negative amount lower than -25", () => {
+  expect(caesarCipher("iphone", -45)).toBe("pwovul");
+});
+
+test("shifts a string of letters and spaces a positive amount", () => {
+  expect(caesarCipher("heading west today", 12)).toBe("tqmpuzs iqef fapmk");
+});
+
+test("shifts a string of letters, numbers, punctuation, and spaces a negative amount", () => {
+  expect(caesarCipher("it can't be done 4 times!", -5)).toBe(
+    "do xvi'o wz yjiz 4 odhzn!"
+  );
+});
+
+test("shifts a string of mixed case letters a positive amount", () => {
+  expect(caesarCipher("celeBRaTE", 8)).toBe("kmtmJZiBM");
+});
+
+test("shifts a string of letters, numbers, punctuation, spaces, and capitalized letters a positive amount", () => {
+  expect(caesarCipher("It costs about $499 John!", 9)).toBe(
+    "Rc lxbcb jkxdc $499 Sxqw!"
+  );
+});
+
+// Analyze Array Tests
+
+test("returns avg, min, max, length for array of mixed numbers", () => {
+  const obj = analyzeArray([3, 1, 5, 76, 32, 1, 16, 40, -30, 23, -12, 0]);
+  expect(obj["average"]).toBeCloseTo(12.916);
+  expect(obj["min"]).toBe(-30);
+  expect(obj["max"]).toBe(76);
+  expect(obj["length"]).toBe(12);
+  // expect(analyzeArray([3, 1, 5, 76, 32, 1, 16, 40, -30, 23, -12, 0])).toEqual({
+  //   average: 12.91667,
+  //   min: -30,
+  //   max: 76,
+  //   length: 12,
+  // });
+});
+
+test("returns avg, min, max, length for array of mixed numbers", () => {
+  const obj = analyzeArray([0, -20, 40, -10, -5, -5]);
+  expect(obj["average"]).toBeCloseTo(0);
+  expect(obj["min"]).toBe(-20);
+  expect(obj["max"]).toBe(40);
+  expect(obj["length"]).toBe(6);
 });

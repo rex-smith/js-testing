@@ -35,22 +35,72 @@ const calculator = (() => {
   };
 })();
 
-// function caesarCipher(string, shift) {
-//   // Needs to work with punctuation, uppercase/lowercase, and reverse shifts
-//   let newString;
-//   return newString;
-// }
+function caesarCipher(str, shift) {
+  // Build array out of string
+  let charArray = str.split("");
+  let shiftedCharArray = charArray.map((char) => caesarShift(char, shift));
+  let newString = shiftedCharArray.join("");
+  return newString;
+}
 
-// function analyzeArray(array) {
+function caesarShift(char, shift) {
+  let newChar;
+  let code = char.charCodeAt(0);
+  let updatedShift = convertShift(shift);
+  if (code >= 97 && code <= 122) {
+    newChar = charShiftLowercase(char, updatedShift);
+  } else if (code >= 65 && code <= 90) {
+    newChar = charShiftUppercase(char, updatedShift);
+  } else {
+    newChar = char;
+  }
+  return newChar;
+}
 
-//   let arrayObject = {
-//     average:
-//     min:
-//     max:
-//     length:
-//   }
-//   return arrayObject;
-// }
+function convertShift(shift) {
+  let remainder = shift % 26;
+  if (remainder < 0) {
+    remainder = remainder + 26;
+  }
+  return remainder;
+}
+
+function charShiftLowercase(char, shift) {
+  let code = char.charCodeAt(0);
+  if (code + shift > 122) {
+    shift = shift - 26;
+  } else if (code + shift < 97) {
+    shift = shift + 26;
+  }
+  return String.fromCharCode(code + shift);
+}
+
+function charShiftUppercase(char, shift) {
+  let code = char.charCodeAt(0);
+  if (code + shift > 90) {
+    shift = shift - 26;
+  } else if (code + shift < 65) {
+    shift = shift + 26;
+  }
+  return String.fromCharCode(code + shift);
+}
+
+function analyzeArray(arr) {
+  let sum = arr.reduce((a, b) => a + b);
+  let avg;
+  if (sum === 0) {
+    avg = 0;
+  } else {
+    avg = sum / arr.length;
+  }
+  let obj = {
+    average: avg,
+    min: Math.min(...arr),
+    max: Math.max(...arr),
+    length: arr.length,
+  };
+  return obj;
+}
 
 // module.exports = {
 //   capitalize,
@@ -60,4 +110,4 @@ const calculator = (() => {
 //   analyzeArray
 // }
 
-export { capitalize, reverseString, calculator };
+export { capitalize, reverseString, calculator, caesarCipher, analyzeArray };
